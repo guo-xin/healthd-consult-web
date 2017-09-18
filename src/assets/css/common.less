@@ -1,0 +1,45 @@
+@import "variable";
+@import "mint";
+@import "base";
+@import "./components/circle";
+@import "./components/blank";
+
+#app{
+  width: 100%;
+  text-align: left;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  padding: @gap 0;
+  overflow-y: auto;
+}
+
+.foot{
+  background: #fff;
+  padding: 0.2rem;
+  width: 100%;
+  border-top: 1px solid #dbdbdb;
+
+  .mint-button{
+    height: 0.96rem;
+    line-height: 0.96rem;
+  }
+
+  img {
+    margin-right: 0.28rem;
+    height: 0.36rem;
+    position: relative;
+    top: 0.08rem;
+  }
+}
+
+#app.foot-fixed{
+  bottom: 1.36rem;
+
+  .foot{
+    position: fixed;
+    bottom: 0;
+  }
+}
+

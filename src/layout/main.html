@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width ,initial-scale=1.0, minimum-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <title></title>
+    <script type="text/javascript">
+        (function (win, lib) {
+            var doc = win.document;
+            var docEl = doc.documentElement;
+            var metaEl = doc.querySelector('meta[name="viewport"]');
+            var flexibleEl = doc.querySelector('meta[name="flexible"]');
+            var dpr = 0;
+            var scale = 0;
+            var tid;
+            var flexible = lib.flexible || (lib.flexible = {});
+
+            if (metaEl) {
+                console.warn('将根据已有的meta标签来设置缩放比例');
+                var match = metaEl.getAttribute('content').match(/initial\-scale=([\d\.]+)/);
+                if (match) {
+                    scale = parseFloat(match[1]);
+                    dpr = parseInt(1 / scale);
+                }
+            } else if (flexibleEl) {
+                var content = flexibleEl.getAttribute('content');
+                if (content) {
+                    var initialDpr = content.match(/initial\-dpr=([\d\.]+)/);
+                    var maximumDpr = content.match(/maximum\-dpr=([\d\.]+)/);
+                    if (initialDpr) {
+                        dpr = parseFloat(initialDpr[1]);
+                        scale = parseFloat((1 / dpr).toFixed(2));
+                    }
+                    if (maximumDpr) {
+                        dpr = parseFloat(maximumDpr[1]);
+                        scale = parseFloat((1 / dpr).toFixed(2));
+                    }
+                }
+            }
+
+            if (!dpr && !scale) {
+                var isAndroid = win.navigator.appVersion.match(/android/gi);
+                var isIPhone = win.navigator.appVersion.match(/iphone/gi);
+                var devicePixelRatio = win.devicePixelRatio;
+                if (isIPhone) {
+                    // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案
+                    if (devicePixelRatio >= 3 && (!dpr || dpr >= 3)) {
+                        dpr = 3;
+                    } else if (devicePixelRatio >= 2 && (!dpr || dpr >= 2)) {
+                        dpr = 2;
+                    } else {
+                        dpr = 1;
+                    }
+                } else {
+                    // 其他设备下，仍旧使用1倍的方案
+                    dpr = 1;
+                }
+                scale = 1 / dpr;
+            }
+
+            docEl.setAttribute('data-dpr', dpr);
+            if (!metaEl) {
+                metaEl = doc.createElement('meta');
+                metaEl.setAttribute('name', 'viewport');
+                metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+                if (docEl.firstElementChild) {
+                    docEl.firstElementChild.appendChild(metaEl);
+                } else {
+                    var wrap = doc.createElement('div');
+                    wrap.appendChild(metaEl);
+                    doc.write(wrap.innerHTML);
+                }
+            }
+
+            function refreshRem() {
+                var width = docEl.getBoundingClientRect().width;
+                // console.log(width, dpr);
+                if (width / dpr > 540) {
+                    width = 540 * dpr;
+                }
+                var rem = width / 10 * 1.33333;
+                rem = (Math.ceil(rem) % 2 == 0) ? Math.ceil(rem) : (Math.ceil(rem) + 1);
+                if (dpr > 1) {
+                    rem = rem > 100 ? rem : 100;
+                }
+                if (dpr == 1) {
+                    rem = rem > 50 ? rem : 50;
+                }
+                docEl.style.fontSize = rem + 'px';
+                flexible.rem = win.rem = rem;
+            }
+
+            win.addEventListener('resize', function () {
+                clearTimeout(tid);
+                tid = setTimeout(refreshRem, 300);
+            }, false);
+            win.addEventListener('pageshow', function (e) {
+                if (e.persisted) {
+                    clearTimeout(tid);
+                    tid = setTimeout(refreshRem, 300);
+                }
+            }, false);
+
+            if (doc.readyState === 'complete') {
+                doc.body.style.fontSize = 12 * dpr * 1.33333 + 'px';
+            } else {
+                doc.addEventListener('DOMContentLoaded', function (e) {
+                    doc.body.style.fontSize = 12 * dpr * 1.33333 + 'px';
+                }, false);
+            }
+
+
+            refreshRem();
+
+            flexible.dpr = win.dpr = dpr;
+            flexible.refreshRem = refreshRem;
+            flexible.rem2px = function (d) {
+                var val = parseFloat(d) * this.rem;
+                if (typeof d === 'string' && d.match(/rem$/)) {
+                    val += 'px';
+                }
+                return val;
+            }
+            flexible.px2rem = function (d) {
+                var val = parseFloat(d) / this.rem;
+                if (typeof d === 'string' && d.match(/px$/)) {
+                    val += 'rem';
+                }
+                return val;
+            }
+
+        })(window, window['lib'] || (window['lib'] = {}));
+    </script>
+    <style type="text/css">
+        #no-internet{
+            display: none;
+        }
+        #no-internet .blank {
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 2.55rem 1.27rem 0;
+            height: 100%;
+            width: 100%;
+            background: #f7f7f9;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        #no-internet .blank > div {
+            margin-bottom: 1rem;
+        }
+
+        #no-internet img {
+            width: 1.6rem;
+        }
+
+        #no-internet h3 {
+            margin-top: 0.48rem;
+            font-weight: normal;
+            font-size: 0.32rem;
+            color: #999;
+        }
+
+        #no-internet p {
+            margin-top: 0.24rem;
+            font-size: 0.24rem;
+            color: #c0c0c0;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+<div id="app"></div>
+<div id="no-internet" onclick="javascript: window.location.reload()">
+    <div class="blank">
+        <div>
+            <img src="data:image/png;base64,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">
+            <h3>当前网络异常</h3>
+            <p>请检查网络后重试</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

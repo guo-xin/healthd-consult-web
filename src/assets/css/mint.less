@@ -1,0 +1,354 @@
+/*覆盖field和cell的样式*/
+.section {
+  margin: 0.1rem 0 0 ;
+   &:first-child{
+     margin: 0;
+   }
+}
+
+.mint-cell {
+  &.unit {
+    .mint-field-other {
+      position: relative;
+      color: @textColorBase;
+
+      span {
+        margin-left: 0.1rem;
+      }
+      img {
+        height: 0.23rem;
+        margin-left: 0.3rem;
+      }
+    }
+  }
+
+  /*只读文本框*/
+  &.readonly .mint-cell-value {
+    .mint-field-core {
+      color: @textColorBlack;
+    }
+  }
+
+  &.no-border {
+    .mint-cell-wrapper {
+      background: none;
+    }
+  }
+
+  &:last-child, &:first-child .mint-cell-wrapper {
+    background: #fff;
+  }
+
+  &.is-textarea {
+    .mint-cell-wrapper {
+      display: block;
+    }
+
+    .mint-cell-title {
+      width: auto;
+    }
+
+    .mint-cell-value {
+      padding: 0 0 0.2rem;
+    }
+  }
+
+  .mint-cell-wrapper {
+    padding: 0 0.4rem;
+    background-image: linear-gradient(180deg, @borderColor, @borderColor 50%, transparent 50%);
+  }
+
+  .mint-cell-value {
+
+    .mint-field-default {
+      text-align: right;
+      color: @textColorLight;
+      flex: 1;
+      width: 100%;
+      display: block;
+    }
+
+    .mint-field-core {
+      font-family: @font-family;
+      text-align: right;
+      color: @textColorBase;
+      display: block;
+    }
+
+    textarea.mint-field-core {
+      background: #fdfdfd;
+      border: 1px solid @borderColor;
+      border-radius: 0.08rem;
+      resize: none;
+      padding: 0.15rem 0.2rem;
+      font-family: @font-family;
+      color: @textColorBase;
+      text-align: left;
+      font-size: 0.28rem;
+    }
+
+    .field-text {
+      line-height: 1.6;
+    }
+
+    .arrow-right {
+      height: 0.23rem;
+      margin-left: @gap;
+    }
+  }
+
+  .mint-cell-text {
+    color: @textColorBlack;
+  }
+
+  .mint-field-clear {
+    display: none;
+  }
+}
+
+/*按钮样式*/
+.mint-button {
+  font-size: @fontSizeBase;
+
+  &.is-disabled {
+    background: #e6e6e6;
+    opacity: 1;
+  }
+}
+
+.mint-button--primary {
+  background: @blue;
+}
+
+.mint-button--primary.is-plain {
+  border: 1px solid @blue;
+  color: @blue;
+
+  &.is-disabled {
+    border-color: #e6e6e6;
+    color: #fff;
+  }
+}
+
+.mint-cell:before, .mint-cell:after {
+  border: none;
+}
+
+.mint-navbar {
+  align-items: center;
+  .mint-tab-item {
+    padding: 0.28rem 0;
+  }
+}
+
+/*时间控件样式*/
+.mint-datetime-action {
+  width: 20%;
+}
+
+.mint-datetime-cancel {
+  color: @textColorLight;
+}
+
+.mint-datetime-confirm {
+  color: @blue;
+}
+
+.picker-items {
+  margin: auto;
+}
+
+.picker-item.picker-selected {
+  font-size: @fontSizeLg;
+}
+
+.picker-slot {
+  font-size: @fontSizeBase;
+}
+
+.picker-item {
+  color: @textColorLight;
+}
+
+/*底部全部加载完毕样式*/
+.all-loaded {
+  text-align: center;
+  height: @bottomGap;
+  line-height: @bottomGap;
+  font-size: @fontSizeXs;
+  .mint-loadmore-text {
+    vertical-align: inherit;
+  }
+}
+
+/*上拉，下拉样式*/
+.mint-loadmore {
+  overflow: hidden;
+}
+
+.page-infinite-loading {
+  text-align: center;
+  height: 0.64rem;
+  line-height: 0.64rem;
+  font-size: @fontSizeXs;
+  color: @textColorLight;
+
+  div {
+    display: inline-block;
+    vertical-align: -0.08rem;
+    margin-right: 0.1rem;
+  }
+}
+
+/*预加载蒙层样式*/
+.mint-indicator-mask {
+  opacity: 0.2;
+  background: @gray;
+}
+
+.mint-indicator-wrapper {
+  background: transparent;
+
+  .mint-indicator-text {
+    color: @textColorBlack;
+  }
+}
+
+/*toast提示语信息样式*/
+.mint-toast {
+  .mint-toast-icon {
+    float: left;
+  }
+  .mint-toast-text {
+    float: right;
+    padding-top: 0 !important;
+    padding: 0 @gap;
+  }
+}
+
+.mint-popup {
+  .picker-toolbar {
+    border-bottom: solid 1px #eaeaea;
+
+    .mint-action {
+      width: 20%;
+      display: inline-block;
+      text-align: center;
+      line-height: 0.8rem;
+      font-size: 0.32rem;
+
+      &.mint-cancel {
+        color: #c0c0c0;
+        float: left;
+      }
+
+      &.mint-confirm {
+        float: right;
+        color: @blue;
+      }
+    }
+  }
+}
+
+/*开关样式*/
+.mint-switch-input:checked + .mint-switch-core {
+  border-color: #4cd964;
+  background-color: #4cd964;
+}
+
+.mint-switch-input:checked + .mint-switch-core::after{
+  transform: translateX(0.4rem);
+}
+
+/*复选框样式*/
+.mint-checkbox-core,
+.mint-checkbox-input.same[disabled] + .mint-checkbox-core{
+  background-color: #fff;
+  border-color: @blue;
+}
+
+.mint-checkbox-input:checked + .mint-checkbox-core,
+.mint-checkbox-input.same:checked + .mint-checkbox-core{
+  background-color: @blue;
+  border-color: @blue;
+}
+
+/*confirm弹框样式*/
+.mint-msgbox{
+  .mint-msgbox-content{
+    border: none;
+  }
+  .mint-msgbox-message{
+    font-size: @fontSizeSm;
+    width: 60%;
+    margin: auto;
+  }
+
+  .mint-msgbox-btns{
+    line-height: 0.96rem;
+    margin: 0 0.4rem 0.4rem;
+    height: 0.82rem;
+
+    .mint-msgbox-btn{
+      font-size: @fontSizeBase;
+      margin: 0 0.2rem;
+      border-radius: 0.08rem;
+    }
+    .mint-msgbox-cancel{
+      background: @white;
+      border: 1px solid @blue;
+      color: @blue;
+    }
+    .mint-msgbox-confirm{
+      background: @blue;
+      color:@white;
+    }
+  }
+}
+
+//rem样式
+.picker-toolbar {
+  height: 0.8rem;
+  .mint-datetime-action {
+    line-height: 0.8rem;
+    font-size: 0.32rem;
+  }
+}
+
+.picker-items {
+  font-size: 0.48rem;
+}
+.picker-center-highlight {
+  height: 0.72rem;
+  margin-top: -0.36rem;
+}
+
+.mint-cell-wrapper {
+  font-size: 0.32rem;
+}
+
+.mint-actionsheet-listitem, .mint-actionsheet-button {
+  height: 0.9rem;
+  line-height: 0.9rem;
+  font-size: 0.36rem;
+}
+#app .mint-checklist .mint-checklist-title {
+  padding: 0.16rem 0.4rem;
+  font-size: 0.24rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
